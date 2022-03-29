@@ -7,7 +7,14 @@ add_executable(NPRG041
         main.cpp
         Model/Shared/Settings.cpp
         Model/Shared/SmartConversion.cpp
-        Model/Editor/Menu.cpp
         Model/Editor/Editor.cpp
+        Model/Editor/Menu/MainMenu.cpp
+        Model/Editor/Menu/SimulationEditorMenu.cpp
+        Model/Editor/Menu/SimulationImportAndExportMenu.cpp
+        Model/Editor/Menu/SimulationRenderMenu.cpp
+        Model/Editor/Menu/SimulationRunnerMenu.cpp
+        Model/Editor/Menu/SimulationViewMenu.cpp
+        Model/Editor/Menu/SolverMenu.cpp
+        Model/Editor/Menu/SolverSettingsMenu.cpp
         )
 

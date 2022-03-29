@@ -7,7 +7,9 @@
 
 #include <vector>
 #include <memory>
+#include <iostream>
 #include "../Shared/Settings.h"
+#include "../Shared/SmartConversion.h"
 
 
 /* Menu should be able to solve request,

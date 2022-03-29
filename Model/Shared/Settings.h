@@ -71,20 +71,10 @@ public:
 
 class SolverSettings : public Settings{
 public:
-    std::vector<std::tuple<std::string,std::string>> get_contents() override;
-    bool set_contents(const std::string & name, const std::string & value) override;
+    //Purely virtual
 };
 
 //Global Settings
-class SimulationSettings final : public Settings{
-    int Duration = default_duration; //In seconds
-    int Substeps = default_substeps; //Per frame
-    int Framerate = default_framerate; //Per second
-    std::string CacheFolder = std::string(default_cache_folder);
-public:
-    std::vector<std::tuple<std::string,std::string>> get_contents() override;
-    bool set_contents(const std::string & name,const std::string & value) override;
-};
 
 class PlaybackSettings final : public Settings{
     Eigen::Vector<int,2> Resolution = Eigen::Vector<int,2>(default_playback_resolution_x,default_playback_resolution_y);

@@ -3,6 +3,7 @@
 //
 
 
+#include "../Simulation/Simulation.h"
 #include "SmartConversion.h"
 #include "Settings.h"
 #include "Bound.h"
@@ -38,19 +39,6 @@ bool SimulationSettings::set_contents(const std::string &name,const std::string 
         return false;
     }
     return true;
-}
-
-//endregion
-
-//region solver settings implementation
-std::vector<std::tuple<std::string, std::string>> SolverSettings::get_contents() {
-    return std::vector<std::tuple<std::string,std::string>>();
-    //Todo: Implement this method
-}
-
-bool SolverSettings::set_contents(const std::string &name, const std::string &value) {
-    return false;
-    //Todo: Implement this method
 }
 
 //endregion
