@@ -9,6 +9,8 @@
 #include <iostream>
 #include "../../Dependencies/Eigen/Core"
 
+
+
 //region To String
 template<typename T, size_t size>
 std::string smart_to_string(const Eigen::Vector<T,size> & vec){
@@ -30,11 +32,6 @@ std::string smart_to_string(const Eigen::Vector<T,size> & vec){
 //endregion
 
 //region From String
-bool convert_size_t(const std::string &, size_t &);
-bool convert_double(const std::string &, double &);
-
-
-//Difference between those functions and their library variant is that they only accept exact conversion! This is crucial to avoid bugs.
 template<typename T>
 T convert_to_type(const std::string & str){
     T temp;
@@ -51,14 +48,20 @@ Eigen::Vector<T,size> convert_to_vector(const std::string & str){
 
     std::stringstream sstream(str);
     for(size_t i = 0; i < size; i++){
-        sstream >> temp[i];
-        sstream.seekp(1);
+        if(sstream.rdbuf()->in_avail() > 0){
+            sstream >> temp[i];
+        }
+        else{
+            temp[i] = 0;
+        }
     }
+
+    return temp;
 }
 
 //endregion
 
-
+//Todo: Create partial specialization for size_t to avoid errors
 //Todo: Implement those conversions
 
 
