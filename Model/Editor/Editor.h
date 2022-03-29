@@ -9,21 +9,24 @@
 #include "Menu.h"
 
 class Editor{
+public:
+    Editor();
+    void Loop();
+    void Step(const std::string &);
+private:
+    Menu* active_menu;
+
 //region Data
-    std::vector<std::unique_ptr<SolverSettingsMenu>> solvers; //Solvers that will be translated into the simulation
+    std::vector<std::unique_ptr<SolverSettings>> solvers; //Solvers that will be translated into the simulation
     SimulationSettings simulation_settings;
     PlaybackSettings playback_settings;
-    ExportSettings exportSettings;
+    RenderSettings export_settings;
 
 //endregion
 
-//region Main Menu
     MainMenu main_menu;
-//endregion
-
-//region Simulation Editor
-    //Todo: Implement
-//endregion
+    SolverMenu solver_menu;
+    SimulationEditorMenu simulation_editor_menu;
 
 //region Simulation Runner Menu
     //Todo: Implement
@@ -40,7 +43,6 @@ class Editor{
 //region Simulation Import and Export
     //Todo: Implement
 //endregion
-
 };
 
 #endif //NPRG041_EDITOR_H

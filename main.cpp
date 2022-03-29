@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Model/Editor/Editor.h"
 #include "Model/Shared/Settings.h"
 #include "Dependencies/Eigen/Eigen"
 #include "Model/Shared/SmartConversion.h"
@@ -6,12 +7,12 @@
 using namespace std;
 
 int main() {
-    SimulationSettings S;
+//    SimulationSettings S;
 //    S.set_contents("Substeps"," 100");
 //
-    for(auto && x : S.get_contents()){
-        std::cout << std::get<0>(x) + " " + std::get<1>(x) << std::endl;
-    }
+//    for(auto && x : S.get_contents()){
+//        std::cout << std::get<0>(x) + " " + std::get<1>(x) << std::endl;
+//    }
 
 //    Eigen::Vector<int,5> test(1,2,3,2,1);
 //    std::cout << smart_to_string<int,5>(test) << std::endl;
@@ -32,4 +33,6 @@ int main() {
 //    size_t x = 1;
 //    cout << to_string(x);
 
+    Editor editor;
+    editor.Loop();
 }
