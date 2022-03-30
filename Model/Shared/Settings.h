@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <tuple>
+#include "../Simulation/Solver.h"
 
 //region Bounding constants
 //Simulation settings
@@ -71,6 +72,7 @@ public:
 
 class SolverSettings : public Settings{
 public:
+    virtual SolverType get_type() = 0;
     //Purely virtual
 };
 

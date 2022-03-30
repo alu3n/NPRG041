@@ -10,6 +10,7 @@
 #include <iostream>
 #include "../Shared/Settings.h"
 #include "../Shared/SmartConversion.h"
+#include "../Simulation/Simulation.h"
 
 
 /* Menu should be able to solve request,

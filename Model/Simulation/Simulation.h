@@ -30,8 +30,8 @@ private:
     std::vector<std::unique_ptr<MidSolver>> mid_solvers;
     std::vector<std::unique_ptr<PostSolver>> post_solvers;
 
-    bool simulate_step;
-    bool simulate_frame;
+    bool simulate_step();
+    bool simulate_frame();
 public:
     Simulation(const SimulationSettings &, std::vector<SolverSettings *>);
     Cache & Simulate();

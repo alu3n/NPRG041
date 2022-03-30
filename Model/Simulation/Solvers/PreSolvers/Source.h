@@ -20,8 +20,9 @@ public:
     Eigen::Vector<double,2> density_range;
     //Todo: Add possibility to source different shapes
 
-    std::vector<std::tuple<std::string,std::string>> get_contents() override; //Todo: Implement this
-    bool set_contents(const std::string & name, const std::string & value) override; //Todo: Implement this
+    std::vector<std::tuple<std::string,std::string>> get_contents() override;
+    bool set_contents(const std::string & name, const std::string & value) override;
+    SolverType get_type() override;
 };
 
 /* Sourcing should be stochastic

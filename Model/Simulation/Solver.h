@@ -8,6 +8,10 @@
 #include <vector>
 #include "Particle.h"
 
+enum class SolverType{
+    Source
+};
+
 struct SolverMetadata{
     int substeps;
     int framerate;

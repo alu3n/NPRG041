@@ -7,6 +7,7 @@
 
 #include <memory>
 #include "Menu.h"
+#include "../Simulation/Simulation.h"
 
 class Editor{
 public:

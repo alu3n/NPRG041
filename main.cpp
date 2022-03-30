@@ -3,6 +3,7 @@
 #include "Model/Shared/Settings.h"
 #include "Dependencies/Eigen/Eigen"
 #include "Model/Shared/SmartConversion.h"
+#include "Model/Simulation/Cache.h"
 
 using namespace std;
 
@@ -33,6 +34,8 @@ int main() {
 //    size_t x = 1;
 //    cout << to_string(x);
 
-    Editor editor;
-    editor.Loop();
+//    Editor editor;
+//    editor.Loop();
+//    auto test = Cache::particle_deserialize("1;-1;-3.146;1;2;3;0.1;0.3;0.4;1023.51;0.6");
+//    test.print();
 }
