@@ -19,6 +19,10 @@ Menu *SolverSettingsMenu::solve_request(const std::string & request) {
 }
 
 void SolverSettingsMenu::display() {
+    for(auto && parameter : settings->get_contents()){
+        cout << "# - " << get<0>(parameter) << " = " << get<1>(parameter) << endl;
+    }
+    cout << "asdasdasda";
     //Todo: Finish implementation
 }
 

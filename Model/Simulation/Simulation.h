@@ -12,13 +12,15 @@
 #include "Solver.h"
 #include "../Shared/Settings.h"
 
+//Todo: Create solver to move according to the velocity
+
 //Note: This class is implemented in the Settings.cpp
 class SimulationSettings final : public Settings{
+public:
     int Duration = default_duration; //In seconds
     int Substeps = default_substeps; //Per frame
     int Framerate = default_framerate; //Per second
     std::string CacheFolder = std::string(default_cache_folder);
-public:
     std::vector<std::tuple<std::string,std::string>> get_contents() override;
     bool set_contents(const std::string & name,const std::string & value) override;
 };
@@ -30,8 +32,11 @@ private:
     std::vector<std::unique_ptr<MidSolver>> mid_solvers;
     std::vector<std::unique_ptr<PostSolver>> post_solvers;
 
-    bool simulate_step();
-    bool simulate_frame();
+    bool simulate_step(std::vector<Particle> &);
+    bool simulate_frame(std::vector<Particle> &);
+    bool pre_solve(std::vector<Particle> &);
+    bool mid_solve(std::vector<Particle> &);
+    bool post_solve(std::vector<Particle> &);
 public:
     Simulation(const SimulationSettings &, std::vector<SolverSettings *>);
     Cache & Simulate();

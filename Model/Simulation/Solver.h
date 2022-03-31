@@ -37,14 +37,14 @@ class MidSolver : public Solver{
 
 public:
     explicit MidSolver(SolverMetadata metadata) : Solver(metadata){};
-    virtual bool Solve(Particle &) = 0;
+    virtual bool Solve(std::vector<Particle> &) = 0;
 };
 
 class PostSolver : public Solver{
 
 public:
     explicit PostSolver(SolverMetadata metadata) : Solver(metadata){};
-    virtual bool Solve(std::vector<Particle &>) = 0;
+    virtual bool Solve(std::vector<Particle> &) = 0;
 };
 
 

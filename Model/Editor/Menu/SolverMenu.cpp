@@ -2,17 +2,16 @@
 // Created by Vojtěch Pröschl on 29.03.2022.
 //
 
+#include <map>
+#include "../../Simulation/Solvers/PreSolvers/Source.h"
 #include "../Menu.h"
 
 using namespace std;
 
-void SolverMenu::add_solver() {
-
-}
-
-void SolverMenu::remove_solver() {
-
-}
+constexpr string_view back = "back";
+constexpr string_view edit_solver = "edit solver";
+constexpr string_view add_solver = "add solver";
+constexpr string_view remove_solver = "remove solver";
 
 void SolverMenu::build_menu() {
     contents = std::vector<std::unique_ptr<SolverSettingsMenu>>();
@@ -25,21 +24,65 @@ string SolverMenu::header() {
     return "Solver Menu";
 }
 
-Menu* SolverMenu::solve_request(const std::string & request) {
-    if(request == "back"){
-        return parent;
+Menu* SolverMenu::request_edit(const std::string & request) {
+    stringstream sstream(request.substr(edit_solver.size()));
+    int index;
+    sstream >> index;
+    cout << "INDEX: "<< index << endl;
+    if(index > 0 && index <= solvers->size()){
+        cout <<"taasdasdas" << endl;
+        return contents[index-1].get();
     }
     return nullptr;
-    //Todo: Finish implementation
+}
+
+Menu* SolverMenu::request_add(const std::string & request) {
+    if(request == "add solver"){
+        solvers->emplace_back(std::make_unique<SourceSolverSettings>());
+        this->build_menu();
+    }
+    return nullptr;
+}
+
+Menu* SolverMenu::request_remove(const std::string & request) {
+
+    return nullptr;
+}
+
+Menu* SolverMenu::solve_request(const std::string & request) {
+    if(request.substr(0,back.size()) == back){
+        return parent;
+    }
+    else if(request.substr(0,edit_solver.size()) == edit_solver){
+        return this->request_edit(request);
+    }
+    else if(request.substr(0,add_solver.size()) == add_solver){
+        return this->request_add(request);
+    }
+    else if(request.substr(0,remove_solver.size()) == remove_solver){
+        return this->request_remove(request);
+    }
+    return nullptr;
 }
 
 void SolverMenu::display() {
     cout << "# SOLVER MENU" << endl;
     cout << "# Active solvers:" << endl;
-    cout << "# ... TEMPORARY ..." << endl;
+
+    //Todo: Make this nicer
+    int id = 1;
+    for(auto && solver : *this->solvers){
+        switch(solver->get_type()){
+            case SolverType::Source:
+                cout << "# (" << id << ") " << "Source" << endl;
+                break;
+        }
+        id++;
+    }
+
     cout << "# Aviable commands:" << endl;
     cout << "# - back" << endl;
-    cout << "# - edit solver" << endl;
+    cout << "# - edit solver {solver index}" << endl;
     cout << "# - add solver {solver name}" << endl;
     cout << "# - remove solver {solver index}" << endl;
     //Todo: Finish implementation

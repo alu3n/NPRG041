@@ -49,8 +49,9 @@ public:
 class SolverMenu : public Menu{
     std::vector<std::unique_ptr<SolverSettings>> * solvers;
     std::vector<std::unique_ptr<SolverSettingsMenu>> contents;
-    void add_solver();
-    void remove_solver();
+    Menu* request_edit(const std::string &);
+    Menu* request_add(const std::string &);
+    Menu* request_remove(const std::string &);
     void build_menu();
 public:
     std::string header() override;

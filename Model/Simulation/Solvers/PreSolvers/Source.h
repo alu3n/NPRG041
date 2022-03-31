@@ -35,8 +35,4 @@ public:
     SourceSolver(SolverMetadata,SourceSolverSettings);
 };
 
-
-
-
-
 #endif //NPRG041_SOURCE_H
