@@ -39,3 +39,5 @@ void SimulationEditorMenu::display() {
 
     //Todo: Finish implementation
 }
+
+//Todo: Finish requests and change the text output to match solver editor menu

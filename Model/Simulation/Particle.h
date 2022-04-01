@@ -20,6 +20,8 @@ struct Particle{
     double size = 0;
     double density = 0;
     void print();
+    //Todo: Create solver
+    //Todo: Incorporate lifetime
 };
 
 #endif //NPRG041_PARTICLE_H

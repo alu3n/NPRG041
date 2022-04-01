@@ -4,6 +4,8 @@
 
 #include <map>
 #include "../../Simulation/Solvers/PreSolvers/Source.h"
+#include "../../Simulation/Solvers/MidSolvers/Gravity.h"
+#include "../../Simulation/Solvers/MidSolvers/Turbulence.h"
 #include "../Menu.h"
 
 using namespace std;
@@ -37,8 +39,18 @@ Menu* SolverMenu::request_edit(const std::string & request) {
 }
 
 Menu* SolverMenu::request_add(const std::string & request) {
-    if(request == "add solver"){
+    if(request.length() == add_solver.length()) return nullptr;
+    auto solver_name = request.substr(add_solver.size()+1);
+    if(solver_name == "source"){
         solvers->emplace_back(std::make_unique<SourceSolverSettings>());
+        this->build_menu();
+    }
+    else if(solver_name == "gravity"){
+        solvers->emplace_back(std::make_unique<GravitySolverSettings>());
+        this->build_menu();
+    }
+    else if(solver_name == "turbulence"){
+        solvers->emplace_back(std::make_unique<TurbulenceSolverSettings>());
         this->build_menu();
     }
     return nullptr;
@@ -75,6 +87,12 @@ void SolverMenu::display() {
         switch(solver->get_type()){
             case SolverType::Source:
                 cout << "# (" << id << ") " << "Source" << endl;
+                break;
+            case SolverType::Gravity:
+                cout << "# (" << id << ") " << "Gravity" << endl;
+                break;
+            case SolverType::Turbulence:
+                cout << "# (" << id << ") " << "Turbulence" << endl;
                 break;
         }
         id++;

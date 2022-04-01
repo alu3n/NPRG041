@@ -41,7 +41,7 @@ constexpr int max_color = 255;
 constexpr int default_duration = 10;
 constexpr int default_substeps = 1;
 constexpr int default_framerate = 24;
-constexpr std::string_view  default_cache_folder = "./Cache";
+constexpr std::string_view  default_cache_folder = "Cache";
 
 //Default playback settings
 constexpr int default_playback_resolution_x = 1000;

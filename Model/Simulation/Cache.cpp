@@ -15,10 +15,18 @@ using namespace std;
  * {pos_x};{pos_y};{pos_z};{vel_x};{vel_y};{vel_z};{col_r};{col_g};{col_b};{size};{density}\n
  */
 
+Cache::Cache(std::string location) {
+    this->location = location;
+    this->frame_count = 0;
+}
+
 bool Cache::cache_frame(int frame_number, const std::vector<Particle> & particles) {
-    ofstream file(location + string(file_name) + to_string(frame_number) + "." + string(file_suffix));
+    string cache_location = location + "/" +string(file_name) + to_string(frame_number) + "." + string(file_suffix);
+
+    ofstream file(cache_location);
 
     if(!file.is_open()) {
+        cout << "Caching failed!" << endl;
         return false;
     }
 
@@ -26,12 +34,16 @@ bool Cache::cache_frame(int frame_number, const std::vector<Particle> & particle
         file << this->particle_serialize(p);
     }
 
+    //Todo: Create folder if it isnt there
+
+    frame_count++;
     file.close();
     return true;
 }
 
-bool Cache::load_frame(int frame_number, std::vector<Particle> & particles) {
-    ifstream file(location + string(file_name) + to_string(frame_number) + "." + string(file_suffix));
+bool Cache::load_frame(int frame_number, std::vector<Particle> & particles) const {
+    string cache_location = location + "/" +string(file_name) + to_string(frame_number) + "." + string(file_suffix);
+    ifstream file(cache_location);
 
     if(!file.is_open()){
         return false;
@@ -42,9 +54,11 @@ bool Cache::load_frame(int frame_number, std::vector<Particle> & particles) {
     string line;
 
     while(getline(file,line)){
-
+        Particle temp = this->particle_deserialize(line);
+        particles.push_back(temp);
     }
 
+    return true;
     //Todo: Check correctness of this method
 
 }
@@ -64,7 +78,7 @@ std::string Cache::particle_serialize(const Particle & particle) {
         "\n";
 }
 
-Particle Cache::particle_deserialize(const std::string & str) {
+Particle Cache::particle_deserialize(const std::string & str) const {
     Particle temp;
 
     stringstream sstream(str);

@@ -9,8 +9,10 @@ Editor::Editor() {
     active_menu = &main_menu;
     solver_menu = SolverMenu(&main_menu,&solvers);
     simulation_editor_menu = SimulationEditorMenu(&main_menu,&simulation_settings);
+    simulation_runner_menu = SimulationRunnerMenu(&simulation_settings,&solvers,&main_menu);
     main_menu.add_menu_item(&solver_menu);
     main_menu.add_menu_item(&simulation_editor_menu);
+    main_menu.add_menu_item(&simulation_runner_menu);
 }
 
 void Editor::Loop() {

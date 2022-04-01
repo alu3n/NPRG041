@@ -13,13 +13,14 @@ constexpr std::string_view file_suffix = "txt";
 
 class Cache{
 private:
-    int frame_count;
     std::string location;
     std::string particle_serialize(const Particle &);
-    Particle particle_deserialize(const std::string &);
+    Particle particle_deserialize(const std::string &) const;
 public:
+    int frame_count;
     bool cache_frame(int, const std::vector<Particle> &);
-    bool load_frame(int, std::vector<Particle> &);
+    bool load_frame(int, std::vector<Particle> &) const;
+    Cache(std::string);
 };
 
 #endif //NPRG041_CACHE_H

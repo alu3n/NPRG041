@@ -37,8 +37,10 @@ private:
     bool pre_solve(std::vector<Particle> &);
     bool mid_solve(std::vector<Particle> &);
     bool post_solve(std::vector<Particle> &);
+
+    bool simulation_core(std::vector<Particle> &);
 public:
-    Simulation(const SimulationSettings &, std::vector<SolverSettings *>);
+    Simulation(const SimulationSettings &, std::vector<SolverSettings *>);//Todo: Change to &
     Cache & Simulate();
 };
 

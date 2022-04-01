@@ -19,5 +19,5 @@ add_executable(NPRG041
         Model/Simulation/Solvers/PreSolvers/Source.cpp
         Model/Simulation/Simulation.cpp
         Model/Simulation/Particle.cpp
-        )
+        Model/Simulation/Solver.cpp Render/DebRenderer.h Render/DebRenderer.cpp Model/Simulation/Solvers/MidSolvers/Gravity.h Model/Simulation/Solvers/MidSolvers/Gravity.cpp Model/Simulation/Solvers/MidSolvers/Turbulence.h Model/Simulation/Solvers/MidSolvers/Turbulence.cpp)
 

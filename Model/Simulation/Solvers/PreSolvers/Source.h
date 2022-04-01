@@ -12,12 +12,14 @@
 
 class SourceSolverSettings : public SolverSettings{
 public:
-    int count; //Ammount of particles sourced per second (will be done stochastically)
-    Eigen::Vector<double,2> velocity_x_range; //(vel_x_min,vel_x_max)
-    Eigen::Vector<double,2> velocity_y_range;
-    Eigen::Vector<double,2> velocity_z_range;
-    Eigen::Vector<double,2> size_range;
-    Eigen::Vector<double,2> density_range;
+    int count = 240; //Ammount of particles sourced per second (will be done stochastically)
+    Eigen::Vector<double,3> position = {0,0,0};
+    Eigen::Vector<double,2> velocity_x_range = {-3,3}; //(vel_x_min,vel_x_max)
+    Eigen::Vector<double,2> velocity_y_range = {-3,3};
+    Eigen::Vector<double,2> velocity_z_range = {-3,3};
+    Eigen::Vector<double,2> size_range = {0,1};
+    Eigen::Vector<double,2> density_range = {0,1};
+
     //Todo: Add possibility to source different shapes
 
     std::vector<std::tuple<std::string,std::string>> get_contents() override;
@@ -30,6 +32,7 @@ public:
 class SourceSolver : public PreSolver{
     SourceSolverSettings settings;
     void source_particle(std::vector<Particle> &);
+    std::default_random_engine generator;
 public:
     bool Solve(std::vector<Particle> &) override;
     SourceSolver(SolverMetadata,SourceSolverSettings);

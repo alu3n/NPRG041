@@ -26,14 +26,16 @@ private:
 //endregion
 
     MainMenu main_menu;
+
     SolverMenu solver_menu;
     SimulationEditorMenu simulation_editor_menu;
+    SimulationRunnerMenu simulation_runner_menu;
 
 //region Simulation Runner Menu
     //Todo: Implement
 //endregion
 
-//region Simulation View Menu
+//region Simulation Render Menu
     //Todo: Implement
 //endregion
 

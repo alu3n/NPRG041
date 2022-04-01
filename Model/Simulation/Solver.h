@@ -9,7 +9,9 @@
 #include "Particle.h"
 
 enum class SolverType{
-    Source
+    Source,
+    Gravity,
+    Turbulence
 };
 
 struct SolverMetadata{

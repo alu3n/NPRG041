@@ -73,10 +73,14 @@ public:
 };
 
 class SimulationRunnerMenu : public Menu{
-    /* In this menu you should be able to run the simulation, while running you will see progress stats
-     * Commands: run, back
-     */
-//Todo: Implement
+    SimulationSettings * simulation_settings;
+    std::vector<std::unique_ptr<SolverSettings>> * solvers;
+public:
+    std::string header() override;
+    Menu* solve_request(const std::string &) override;
+    void display() override;
+    SimulationRunnerMenu(SimulationSettings *, std::vector<std::unique_ptr<SolverSettings>> *, Menu *);
+    SimulationRunnerMenu() = default;
 };
 
 class SimulationViewMenu : public Menu{
