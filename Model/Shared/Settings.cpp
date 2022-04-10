@@ -13,7 +13,7 @@ using string_t = tuple<string,string>;
 
 
 //region Simulation Settings Implementation
-vector<string_t> SimulationSettings::get_contents(){
+vector<string_t> SimulationSettings::get_contents(){ //Todo: Rework the simulation settings menu
     vector<string_t> temp;
     temp.emplace_back(string_t("Duration",to_string(Duration)));
     temp.emplace_back(string_t("Substeps",to_string(Substeps)));
@@ -23,16 +23,16 @@ vector<string_t> SimulationSettings::get_contents(){
 }
 
 bool SimulationSettings::set_contents(const std::string &name,const std::string &value) {
-    if(name == "Duration"){
+    if(name == "1"){
         Duration = bound<int>(convert_to_type<int>(value),min_duration,max_duration);
     }
-    else if(name == "Substeps"){
+    else if(name == "2"){
         Substeps = bound<int>(convert_to_type<int>(value),min_substeps,max_substeps);
     }
-    else if(name == "Framerate"){
+    else if(name == "3"){
         Framerate = bound<int>(convert_to_type<int>(value),min_framerate,max_framerate);
     }
-    else if(name == "CacheFolder") {
+    else if(name == "4") {
         CacheFolder = value;
     }
     else{

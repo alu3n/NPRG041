@@ -28,18 +28,19 @@ Menu *SolverSettingsMenu::solve_request(const std::string & request) {
 }
 
 void SolverSettingsMenu::display() {
-    cout << endl;
-    cout << "# Source Settings Menu" << endl;
+    system("clear");
+
+    cout << "# SOURCE SETTINGS MENU" << endl;
     cout << "## Source Settings:" << endl;
     int index = 1;
     for(auto && parameter : settings->get_contents()){
         cout << "> (" << index << ") "<< get<0>(parameter) << " = " << get<1>(parameter) << endl;
         index ++;
     }
-    cout << "## Commands:" << endl;
+    cout << "## Available commands:" << endl;
     cout << "> set {parameter id} {value}" << endl;
     cout << "> back" << endl;
-    cout << endl;
+
 }
 
 SolverSettingsMenu::SolverSettingsMenu(Menu * parent,  SolverSettings * settings) {

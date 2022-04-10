@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include "Cache.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ bool Cache::cache_frame(int frame_number, const std::vector<Particle> & particle
     string cache_location = location + "/" +string(file_name) + to_string(frame_number) + "." + string(file_suffix);
 
     ofstream file(cache_location);
+    ofstream obj_file(location + "/OBJ" + to_string(frame_number) + ".obj");
 
     if(!file.is_open()) {
         cout << "Caching failed!" << endl;
@@ -32,11 +34,13 @@ bool Cache::cache_frame(int frame_number, const std::vector<Particle> & particle
 
     for(auto && p : particles){
         file << this->particle_serialize(p);
+        obj_file << "v " << std::fixed << std::setprecision(3) << p.position[0] << " " << p.position[1] << " " << p.position[2] << endl;
     }
 
     //Todo: Create folder if it isnt there
 
     frame_count++;
+    obj_file.close();
     file.close();
     return true;
 }

@@ -4,6 +4,8 @@
 
 #include "Turbulence.h"
 
+constexpr int modulo_size = 7589; //Should be prime for good distribution
+
 
 using namespace std;
 using string_t = tuple<string,string>;
@@ -37,36 +39,102 @@ std::vector<std::tuple<std::string, std::string>> TurbulenceSolverSettings::get_
     return temp;
 }
 
-Eigen::Vector<double,3> TurbulenceSolver::turbulence_mapping(const Eigen::Vector<int, 3> & position) {
+
+std::array<std::tuple<Eigen::Vector<double, 3>, double>, 8>
+TurbulenceSolver::get_corners(const Eigen::Vector<double, 3> &point) {
+    auto A = get_corner(point,0,0,0);
+    auto B = get_corner(point,1,0,0);
+    auto C = get_corner(point,0,1,0);
+    auto D = get_corner(point,0,0,1);
+    auto E = get_corner(point,1,1,0);
+    auto F = get_corner(point,0,1,1);
+    auto G = get_corner(point,1,0,1);
+    auto H = get_corner(point,1,1,1);
+
+    auto sum = get<1>(A) + get<1>(B) + get<1>(C) + get<1>(D) + get<1>(E) + get<1>(F) + get<1>(G) + get<1>(H);
+
+    get<1>(A) /= sum;
+    get<1>(B) /= sum;
+    get<1>(C) /= sum;
+    get<1>(D) /= sum;
+    get<1>(E) /= sum;
+    get<1>(F) /= sum;
+    get<1>(G) /= sum;
+    get<1>(H) /= sum;
+
+    return {A,B,C,D,E,F,G,H};
+}
+
+
+
+Eigen::Vector<double, 3> TurbulenceSolver::compute_noise(Eigen::Vector<double, 3> position) {
+    Eigen::Vector<double,3> temp{((double) (hash_function(position[0]) % modulo_size)+0.001)/modulo_size-0.5,
+                                 ((double) (hash_function(position[1]) % modulo_size)+0.001)/modulo_size-0.5,
+                                 ((double) (hash_function(position[2]) % modulo_size)+0.001)/modulo_size-0.5};
+
+//    temp /= temp.norm();d
+//    cout << temp << endl;
+
+//    cout << ((double) (hash_function(position[0]) % modulo_size)+1)/modulo_size << endl;
+return temp;
 
 }
 
-Eigen::Vector<double,3> TurbulenceSolver::turbulence_value(const Eigen::Vector<double, 3> & position) {
-    /*      A.......B
-     *     .       .
-     *    C.......D.
-     *    . E.......F
-     *    ..       .
-     *    G.......H
-     */
-    Eigen::Vector<int,3> A = {floor(position[0]),ceil(position[1]),floor(position[2])};
-    Eigen::Vector<int,3> B = {ceil(position[0]),ceil(position[1]),floor(position[2])};
-    Eigen::Vector<int,3> C = {floor(position[0]),ceil(position[1]),ceil(position[2])};
-    Eigen::Vector<int,3> D = {ceil(position[0]),ceil(position[1]),ceil(position[2])};
-    Eigen::Vector<int,3> E = {floor(position[0]),floor(position[1]),floor(position[2])};
-    Eigen::Vector<int,3> F = {ceil(position[0]),floor(position[1]),floor(position[2])};
-    Eigen::Vector<int,3> G = {floor(position[0]),floor(position[1]),ceil(position[2])};
-    Eigen::Vector<int,3> H = {ceil(position[0]),floor(position[1]),ceil(position[2])};
+std::tuple<Eigen::Vector<double, 3>, double> TurbulenceSolver::get_corner(const Eigen::Vector<double, 3> position, bool x, bool y, bool z) {
+    Eigen::Vector<double,3> temp;
 
-    //Todo: Implement better interpolation;
+    if(x){
+        temp[0] = std::floor(position[0]/settings.voxel_size);
+    }
+    else{
+        temp[0] = std::ceil(position[0]/settings.voxel_size);
+    }
+
+    if(y){
+        temp[1] = std::floor(position[1]/settings.voxel_size);
+    }
+    else{
+        temp[1] = std::ceil(position[1]/settings.voxel_size);
+    }
+
+    if(z){
+        temp[2] = std::floor(position[2]/settings.voxel_size);
+    }
+    else{
+        temp[2] = std::ceil(position[2]/settings.voxel_size);
+    }
+
+    double temp2 = (temp-position).norm();
 
 
+
+    return {compute_noise(temp),temp2};
 }
+
+
+
 
 bool TurbulenceSolver::Solve(std::vector<Particle> & particles) {
+    //Todo: Improve turbulence solver
+
+    double time_multiplier = 1.0/(metadata.framerate*metadata.substeps);
+
     for(auto && particle : particles){
-        particle.velocity = this->turbulence_value(particle.position); //Todo: Change, this is temporary solution
+        auto corners = get_corners(particle.position);
+        Eigen::Vector<double,3> noise_vector{0,0,0};
+        for(int i = 0; i < 8; i++){
+            noise_vector += (std::get<1>(corners[i])*std::get<1>(corners[i]))*std::get<0>(corners[i]);
+
+        }
+        particle.velocity += time_multiplier*settings.amplitude*noise_vector;
     }
+
+    /* Process:
+     * - Get corners with their distance (typles)
+     * - Compute hash noise for each corner
+     * - Interpolate the result
+     */
+
     return false;
 }
 

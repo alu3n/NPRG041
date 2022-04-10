@@ -18,10 +18,11 @@ Menu *MainMenu::solve_request(const std::string & request) {
 
 void MainMenu::display() {
     int i = 1;
+    system("clear");
     cout << "# MAIN MENU" << endl;
-    cout << "# OPTIONS:" << endl;
+    cout << "## OPTIONS:" << endl;
     for(auto && x : contents){
-        cout << "# - " << x->header() << " (" << i << ")" <<endl;
+        cout << "> " << "(" << i << ") " << x->header() << endl;
         i++;
     }
 }

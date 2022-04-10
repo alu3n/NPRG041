@@ -14,9 +14,9 @@ class SourceSolverSettings : public SolverSettings{
 public:
     int count = 240; //Ammount of particles sourced per second (will be done stochastically)
     Eigen::Vector<double,3> position = {0,0,0};
-    Eigen::Vector<double,2> velocity_x_range = {-3,3}; //(vel_x_min,vel_x_max)
-    Eigen::Vector<double,2> velocity_y_range = {-3,3};
-    Eigen::Vector<double,2> velocity_z_range = {-3,3};
+    Eigen::Vector<double,2> velocity_x_range = {-10,10}; //(vel_x_min,vel_x_max)
+    Eigen::Vector<double,2> velocity_y_range = {-10,10};
+    Eigen::Vector<double,2> velocity_z_range = {-10,10};
     Eigen::Vector<double,2> size_range = {0,1};
     Eigen::Vector<double,2> density_range = {0,1};
 

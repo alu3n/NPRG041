@@ -7,6 +7,7 @@
 
 
 #include <functional>
+#include <array>
 #include "../../../Shared/SmartConversion.h"
 #include "../../Solver.h"
 #include "../../../../Dependencies/Eigen/Eigen"
@@ -14,8 +15,8 @@
 
 class TurbulenceSolverSettings : public SolverSettings{
 public:
-    double voxel_size = 2.0;
-    double amplitude = 1.0;
+    double voxel_size = 1.0; //Todo: Make voxel size 0 impossible
+    double amplitude = 50.0;
     std::vector<std::tuple<std::string,std::string>> get_contents() override;
     bool set_contents(const std::string & name, const std::string & value) override;
     SolverType get_type() override;
@@ -23,9 +24,10 @@ public:
 
 class TurbulenceSolver : public MidSolver{
     TurbulenceSolverSettings settings;
-    std::hash<int> hash_function;
-    Eigen::Vector<double,3> turbulence_value(const Eigen::Vector<double,3> &);
-    Eigen::Vector<double,3> turbulence_mapping(const Eigen::Vector<int,3> &);
+    std::array<std::tuple<Eigen::Vector<double,3>,double>,8> get_corners(const Eigen::Vector<double,3> & point);
+    Eigen::Vector<double,3> compute_noise(Eigen::Vector<double,3> position);
+    std::tuple<Eigen::Vector<double, 3>, double> get_corner(const Eigen::Vector<double,3> position, bool x, bool y, bool z);
+    std::hash<double> hash_function;
 public:
     bool Solve(std::vector<Particle> &) override;
     TurbulenceSolver(SolverMetadata,TurbulenceSolverSettings);

@@ -9,6 +9,8 @@
 #include "Solvers/PreSolvers/Source.h"
 #include "Solvers/MidSolvers/Gravity.h"
 #include "Solvers/MidSolvers/Turbulence.h"
+#include "Solvers/MidSolvers/Vortex.h"
+#include "Solvers/MidSolvers/Drag.h"
 #include "../../Render/DebRenderer.h"
 
 using namespace std;
@@ -38,6 +40,12 @@ Simulation::Simulation(const SimulationSettings & settings, std::vector<SolverSe
                 mid_solvers.emplace_back(make_unique<TurbulenceSolver>(metadata,*(dynamic_cast<TurbulenceSolverSettings*>(x))));
             default:
                 break;
+            case SolverType::Drag:
+                mid_solvers.emplace_back(make_unique<DragSolver>(metadata,*(dynamic_cast<DragSolverSettings*>(x))));
+                break;
+            case SolverType::Vortex:
+                mid_solvers.emplace_back(make_unique<VortexSolver>(metadata,*(dynamic_cast<VortexSolverSettings*>(x))));
+                break;
         }
     }
 }
@@ -47,13 +55,11 @@ Cache &Simulation::Simulate() {
     std::vector<Particle> data;
     int frame_count = this->settings.Framerate*this->settings.Duration;
     for(int i = 0; i < frame_count; i++){
+        system("clear");
         cout << "Simulating frame " << i << endl;
         simulate_frame(data);
         temp.cache_frame(i,data);
     }
-
-    DebRenderer renderer(500,500,10,"Render");
-    renderer.RenderCache(temp);
 
     return temp;
 }
@@ -72,7 +78,6 @@ bool Simulation::simulate_step(std::vector<Particle> & data) {
 
 bool Simulation::pre_solve(std::vector<Particle> & data){
     for(auto && solver : pre_solvers){
-        cout << "Presolving!" << endl;
         solver->Solve(data);
     }
     return true;

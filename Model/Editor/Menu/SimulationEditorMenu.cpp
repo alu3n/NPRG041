@@ -14,8 +14,19 @@ Menu* SimulationEditorMenu::solve_request(const std::string & request) {
     if(request == "back"){
         return parent;
     }
+    if(request.substr(0,3) == "set"){
+        stringstream sstream(request.substr(3));
+        int index;
+        string val;
+        sstream >> index;
+        sstream >> val;
+        if(index > 0 && index <= 4){
+            settings->set_contents(to_string(index),val);
+        }
+    }
+
     return nullptr;
-    //Todo: Finish implementation
+
 }
 
 SimulationEditorMenu::SimulationEditorMenu(Menu * parent, SimulationSettings * settings) {
@@ -26,15 +37,17 @@ SimulationEditorMenu::SimulationEditorMenu(Menu * parent, SimulationSettings * s
 void SimulationEditorMenu::display() {
     auto data = settings->get_contents();
 
-    cout << endl;
+    system("clear");
     cout << "# SIMULATION EDITOR MENU" << endl;
-    cout << "# Settings:" << endl;
+    cout << "## Settings:" << endl;
+    int i = 1;
     for(auto && x : data){
-        cout << "# - " << get<0>(x) << ": " << get<1>(x) << endl;
+        cout << "> ("<< i << ") " << get<0>(x) << ": " << get<1>(x) << endl;
+        i++;
     }
-    cout << "# Aviable commands:" << endl;
-    cout << "# - back" << endl;
-    cout << "# - set {attribute name} {value}" << endl;
+    cout << "## Available commands:" << endl;
+    cout << "> back" << endl;
+    cout << "> set {attribute id} {value}" << endl;
     cout << endl;
 
     //Todo: Finish implementation

@@ -6,6 +6,8 @@
 #include "../../Simulation/Solvers/PreSolvers/Source.h"
 #include "../../Simulation/Solvers/MidSolvers/Gravity.h"
 #include "../../Simulation/Solvers/MidSolvers/Turbulence.h"
+#include "../../Simulation/Solvers/MidSolvers/Drag.h"
+#include "../../Simulation/Solvers/MidSolvers/Vortex.h"
 #include "../Menu.h"
 
 using namespace std;
@@ -32,7 +34,6 @@ Menu* SolverMenu::request_edit(const std::string & request) {
     sstream >> index;
     cout << "INDEX: "<< index << endl;
     if(index > 0 && index <= solvers->size()){
-        cout <<"taasdasdas" << endl;
         return contents[index-1].get();
     }
     return nullptr;
@@ -53,11 +54,19 @@ Menu* SolverMenu::request_add(const std::string & request) {
         solvers->emplace_back(std::make_unique<TurbulenceSolverSettings>());
         this->build_menu();
     }
+    else if(solver_name == "drag"){
+        solvers->emplace_back(std::make_unique<DragSolverSettings>());
+        this->build_menu();
+    }
+    else if(solver_name == "vortex"){
+        solvers->emplace_back(std::make_unique<VortexSolverSettings>());
+        this->build_menu();
+    }
     return nullptr;
 }
 
 Menu* SolverMenu::request_remove(const std::string & request) {
-
+    //Todo: Implement this
     return nullptr;
 }
 
@@ -78,32 +87,45 @@ Menu* SolverMenu::solve_request(const std::string & request) {
 }
 
 void SolverMenu::display() {
+    system("clear");
     cout << "# SOLVER MENU" << endl;
-    cout << "# Active solvers:" << endl;
+    cout << "## Active solvers:" << endl;
 
-    //Todo: Make this nicer
     int id = 1;
     for(auto && solver : *this->solvers){
         switch(solver->get_type()){
             case SolverType::Source:
-                cout << "# (" << id << ") " << "Source" << endl;
+                cout << "> (" << id << ") " << "Source" << endl;
                 break;
             case SolverType::Gravity:
-                cout << "# (" << id << ") " << "Gravity" << endl;
+                cout << "> (" << id << ") " << "Gravity" << endl;
                 break;
             case SolverType::Turbulence:
-                cout << "# (" << id << ") " << "Turbulence" << endl;
+                cout << "> (" << id << ") " << "Turbulence" << endl;
+                break;
+            case SolverType::Drag:
+                cout << "> (" << id << ") " << "Drag" << endl;
+                break;
+            case SolverType::Vortex:
+                cout << "> (" << id << ") " << "Vortex" << endl;
                 break;
         }
         id++;
     }
 
-    cout << "# Aviable commands:" << endl;
-    cout << "# - back" << endl;
-    cout << "# - edit solver {solver index}" << endl;
-    cout << "# - add solver {solver name}" << endl;
-    cout << "# - remove solver {solver index}" << endl;
-    //Todo: Finish implementation
+    cout << "## Available commands:" << endl;
+    cout << "> back" << endl;
+    cout << "> edit solver {solver index}" << endl;
+    cout << "> add solver {solver name}" << endl;
+    cout << "> remove solver {solver index}" << endl;
+
+    cout << "## Available solvers:" << endl;
+    cout << "> source" << endl;
+    cout << "> gravity" << endl;
+    cout << "> turbulence" << endl;
+    cout << "> drag" << endl;
+    cout << "> vortex" << endl;
+
 }
 
 SolverMenu::SolverMenu(Menu * parent, std::vector<std::unique_ptr<SolverSettings>> * solvers) {

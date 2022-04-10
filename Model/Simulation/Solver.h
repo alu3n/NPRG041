@@ -11,7 +11,12 @@
 enum class SolverType{
     Source,
     Gravity,
-    Turbulence
+    Turbulence,
+    Attract,
+    Drag,
+    Vortex,
+    ParticleCollision,
+    SurfaceCollision,
 };
 
 struct SolverMetadata{

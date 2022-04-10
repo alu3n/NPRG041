@@ -30,8 +30,10 @@ Menu* SimulationRunnerMenu::solve_request(const std::string & request) {
 }
 
 void SimulationRunnerMenu::display() {
+    system("clear");
+
     cout << "# SIMULATION RUNNER MENU" << endl;
-    cout << "## Aviable commands" << endl;
+    cout << "## Available commands" << endl;
     cout << "> back" << endl;
     cout << "> run" << endl;
 }
