@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <memory>
+#include <chrono>
 #include "Simulation.h"
 #include "Solver.h"
 #include "Solvers/PreSolvers/Source.h"
@@ -53,6 +54,9 @@ Simulation::Simulation(const SimulationSettings & settings, std::vector<SolverSe
 Cache &Simulation::Simulate() {
     Cache temp(this->settings.CacheFolder);
     std::vector<Particle> data;
+
+    auto start = chrono::steady_clock::now();
+
     int frame_count = this->settings.Framerate*this->settings.Duration;
     for(int i = 0; i < frame_count; i++){
         system("clear");
@@ -61,11 +65,14 @@ Cache &Simulation::Simulate() {
         temp.cache_frame(i,data);
     }
 
+    auto end = chrono::steady_clock::now();
+
+    cout << "Simulation Time: " << chrono::duration_cast<chrono::milliseconds>(end - start).count() << " ms" << endl; //Todo: Make this visible after clean
     return temp;
 }
 
 bool Simulation::simulate_frame(std::vector<Particle> & data) {
-    for(int i = 0; i < this->settings.Substeps; i++){
+    for(int i = 0; i < this->settings.Substeps; ++i){
         simulate_step(data);
     }
 }

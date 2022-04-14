@@ -38,7 +38,7 @@ SourceSolver::SourceSolver(SolverMetadata metadata, SourceSolverSettings setting
     this->settings = settings;
 }
 
-constexpr double source_radius = 2;
+//constexpr double source_radius = 2;
 
 void SourceSolver::source_particle(std::vector<Particle> & particles) {
 
@@ -46,14 +46,19 @@ void SourceSolver::source_particle(std::vector<Particle> & particles) {
     std::uniform_real_distribution y_distribution(settings.velocity_y_range[0],settings.velocity_y_range[1]);
     std::uniform_real_distribution z_distribution(settings.velocity_z_range[0],settings.velocity_z_range[1]);
 
-    std::uniform_real_distribution x_pos(settings.position[0]-source_radius,settings.position[0]+source_radius);
-    std::uniform_real_distribution y_pos(settings.position[1]-source_radius,settings.position[1]+source_radius);
-    std::uniform_real_distribution z_pos(settings.position[2]-source_radius,settings.position[2]+source_radius);
+    std::uniform_real_distribution size_distribution(settings.size_range[0],settings.size_range[1]);
+
+    std::uniform_real_distribution density_distribution(settings.density_range[0],settings.density_range[1]);
+
+    std::uniform_real_distribution x_pos(settings.position[0]-settings.source_radius,settings.position[0]+settings.source_radius);
+    std::uniform_real_distribution y_pos(settings.position[1]-settings.source_radius,settings.position[1]+settings.source_radius);
+    std::uniform_real_distribution z_pos(settings.position[2]-settings.source_radius,settings.position[2]+settings.source_radius);
 
     Particle temp;
     temp.position = {x_pos(generator),y_pos(generator),z_pos(generator)};
     temp.velocity = {x_distribution(generator),y_distribution(generator),z_distribution(generator)};
-
+    temp.size = size_distribution(generator);
+    temp.density = density_distribution(generator);
     particles.push_back(temp);
 }
 

@@ -17,7 +17,7 @@ struct Particle{
     Eigen::Vector<double,3> position;
     Eigen::Vector<double,3> velocity;
     Eigen::Vector<double,3> color; //Color \in [0,1]^3
-    double size = 0;
+    double size = 0.1;
     double density = 0;
     void print();
     //Todo: Create solver

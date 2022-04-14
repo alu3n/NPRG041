@@ -11,7 +11,6 @@ using string_t = tuple<string,string>;
 constexpr string_view _force = "Force";
 
 bool GravitySolver::Solve(std::vector<Particle> & Particles) {
-    //Todo: Make this more realistic?
     double force_multiplier = (1.0)/(metadata.framerate*metadata.substeps);
     for(auto && particle : Particles){
         particle.velocity += force_multiplier*settings.force;

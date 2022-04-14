@@ -12,7 +12,8 @@
 
 class DragSolverSettings : public SolverSettings{
 public:
-    double drag_coefficient = 1;
+//    double fluid_density = 1;
+    double fluid_density = 1;
     std::vector<std::tuple<std::string,std::string>> get_contents() override;
     bool set_contents(const std::string & name, const std::string & value) override;
     SolverType get_type() override;

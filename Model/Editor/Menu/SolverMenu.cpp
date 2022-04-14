@@ -66,7 +66,14 @@ Menu* SolverMenu::request_add(const std::string & request) {
 }
 
 Menu* SolverMenu::request_remove(const std::string & request) {
-    //Todo: Implement this
+    stringstream sstream(request.substr(remove_solver.size()));
+    int index;
+    sstream >> index;
+    cout << index << endl;
+    if(index > 0 && index <= solvers->size()){
+        solvers->erase(solvers->begin()+index-1);
+        this->build_menu();
+    }
     return nullptr;
 }
 
