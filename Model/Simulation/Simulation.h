@@ -32,16 +32,19 @@ private:
     std::vector<std::unique_ptr<MidSolver>> mid_solvers;
     std::vector<std::unique_ptr<PostSolver>> post_solvers;
 
+    void status_print(const std::vector<Particle> &, int, int);
+    void age(std::vector<Particle> &);
+    static std::vector<Particle> remove_corpses(std::vector<Particle> &);
+
     bool simulate_step(std::vector<Particle> &);
     bool simulate_frame(std::vector<Particle> &);
     bool pre_solve(std::vector<Particle> &);
     bool mid_solve(std::vector<Particle> &);
     bool post_solve(std::vector<Particle> &);
-
     bool simulation_core(std::vector<Particle> &);
 public:
-    Simulation(const SimulationSettings &, std::vector<SolverSettings *>);//Todo: Change to &
-    Cache & Simulate();
+    Simulation(const SimulationSettings &, const std::vector<SolverSettings *> &);
+    Cache Simulate();
 };
 
 

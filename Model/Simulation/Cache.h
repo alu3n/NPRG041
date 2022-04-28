@@ -21,6 +21,7 @@ public:
     bool cache_frame(int, const std::vector<Particle> &);
     bool load_frame(int, std::vector<Particle> &) const;
     Cache(std::string);
+    Cache() = default;
 };
 
 #endif //NPRG041_CACHE_H

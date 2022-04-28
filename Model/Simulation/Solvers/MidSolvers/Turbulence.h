@@ -16,7 +16,8 @@
 class TurbulenceSolverSettings : public SolverSettings{
 public:
     double voxel_size = 1.0; //Todo: Make voxel size 0 impossible
-    double amplitude = 50.0;
+    double amplitude = 10;
+    int noise_count = 3; //Noise -> Turbulent noice (summing noise values together)
     std::vector<std::tuple<std::string,std::string>> get_contents() override;
     bool set_contents(const std::string & name, const std::string & value) override;
     SolverType get_type() override;
@@ -24,10 +25,12 @@ public:
 
 class TurbulenceSolver : public MidSolver{
     TurbulenceSolverSettings settings;
-    std::array<std::tuple<Eigen::Vector<double,3>,double>,8> get_corners(const Eigen::Vector<double,3> & point);
-    Eigen::Vector<double,3> compute_noise(Eigen::Vector<double,3> position);
-    std::tuple<Eigen::Vector<double, 3>, double> get_corner(const Eigen::Vector<double,3> position, bool x, bool y, bool z);
     std::hash<double> hash_function;
+    Eigen::Vector<double,3> get_noise(const Eigen::Vector<double,3> & position, double voxel_size);
+
+    Eigen::Vector<double,3> get_noise_anchor(const Eigen::Vector<double,3> & position);
+    Eigen::Vector<double,3> interpolate_value_matrix(const Eigen::Vector<double,3> & position, double voxel_size);
+    long hash_position(double seed, const Eigen::Vector<double, 3> & position);
 public:
     bool Solve(std::vector<Particle> &) override;
     TurbulenceSolver(SolverMetadata,TurbulenceSolverSettings);

@@ -7,7 +7,6 @@
 #include "../../Simulation/Solvers/MidSolvers/Gravity.h"
 #include "../../Simulation/Solvers/MidSolvers/Turbulence.h"
 #include "../../Simulation/Solvers/MidSolvers/Drag.h"
-#include "../../Simulation/Solvers/MidSolvers/Vortex.h"
 #include "../Menu.h"
 
 using namespace std;
@@ -56,10 +55,6 @@ Menu* SolverMenu::request_add(const std::string & request) {
     }
     else if(solver_name == "drag"){
         solvers->emplace_back(std::make_unique<DragSolverSettings>());
-        this->build_menu();
-    }
-    else if(solver_name == "vortex"){
-        solvers->emplace_back(std::make_unique<VortexSolverSettings>());
         this->build_menu();
     }
     return nullptr;
@@ -113,9 +108,6 @@ void SolverMenu::display() {
             case SolverType::Drag:
                 cout << "> (" << id << ") " << "Drag" << endl;
                 break;
-            case SolverType::Vortex:
-                cout << "> (" << id << ") " << "Vortex" << endl;
-                break;
         }
         id++;
     }
@@ -131,7 +123,6 @@ void SolverMenu::display() {
     cout << "> gravity" << endl;
     cout << "> turbulence" << endl;
     cout << "> drag" << endl;
-    cout << "> vortex" << endl;
 
 }
 

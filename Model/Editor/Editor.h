@@ -15,15 +15,13 @@ public:
     void Loop();
     void Step(const std::string &);
 private:
+    bool cached = false;
     Menu* active_menu;
 
-//region Data
     std::vector<std::unique_ptr<SolverSettings>> solvers; //Solvers that will be translated into the simulation
     SimulationSettings simulation_settings;
     PlaybackSettings playback_settings;
     RenderSettings export_settings;
-
-//endregion
 
     MainMenu main_menu;
 
@@ -31,21 +29,7 @@ private:
     SimulationEditorMenu simulation_editor_menu;
     SimulationRunnerMenu simulation_runner_menu;
 
-//region Simulation Runner Menu
-    //Todo: Implement
-//endregion
-
-//region Simulation Render Menu
-    //Todo: Implement
-//endregion
-
-//region Simulation Export
-    //Todo: Implement
-//endregion
-
-//region Simulation Import and Export
-    //Todo: Implement
-//endregion
+    void initialize_folders();
 };
 
 #endif //NPRG041_EDITOR_H

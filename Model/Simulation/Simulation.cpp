@@ -5,14 +5,13 @@
 #include <iostream>
 #include <memory>
 #include <chrono>
+#include <algorithm>
 #include "Simulation.h"
 #include "Solver.h"
 #include "Solvers/PreSolvers/Source.h"
 #include "Solvers/MidSolvers/Gravity.h"
 #include "Solvers/MidSolvers/Turbulence.h"
-#include "Solvers/MidSolvers/Vortex.h"
 #include "Solvers/MidSolvers/Drag.h"
-#include "../../Render/DebRenderer.h"
 
 using namespace std;
 
@@ -25,7 +24,7 @@ bool Simulation::simulation_core(std::vector<Particle> & particles) {
     }
 }
 
-Simulation::Simulation(const SimulationSettings & settings, std::vector<SolverSettings *> solvers_settings) {
+Simulation::Simulation(const SimulationSettings & settings, const std::vector<SolverSettings *> & solvers_settings) {
     this->settings = settings;
     SolverMetadata metadata(settings.Substeps,settings.Framerate);
     for(auto && x : solvers_settings){
@@ -44,14 +43,11 @@ Simulation::Simulation(const SimulationSettings & settings, std::vector<SolverSe
             case SolverType::Drag:
                 mid_solvers.emplace_back(make_unique<DragSolver>(metadata,*(dynamic_cast<DragSolverSettings*>(x))));
                 break;
-            case SolverType::Vortex:
-                mid_solvers.emplace_back(make_unique<VortexSolver>(metadata,*(dynamic_cast<VortexSolverSettings*>(x))));
-                break;
         }
     }
 }
 
-Cache &Simulation::Simulate() {
+Cache Simulation::Simulate() {
     Cache temp(this->settings.CacheFolder);
     std::vector<Particle> data;
 
@@ -59,8 +55,7 @@ Cache &Simulation::Simulate() {
 
     int frame_count = this->settings.Framerate*this->settings.Duration;
     for(int i = 0; i < frame_count; i++){
-        system("clear");
-        cout << "Simulating frame " << i << endl;
+        status_print(data,i,frame_count);
         simulate_frame(data);
         temp.cache_frame(i,data);
     }
@@ -103,4 +98,26 @@ bool Simulation::post_solve(std::vector<Particle> & data) {
         solver->Solve(data);
     }
     return true;
+}
+
+void Simulation::status_print(const std::vector<Particle> & particles, int frame_num, int frame_count) {
+    system("clear");
+    cout << "# SIMULATING FRAME " << frame_num+1 << "/" << frame_count << " #" << endl;
+    cout << "- Particle count: " << particles.size() << endl;
+}
+
+void Simulation::age(std::vector<Particle> & particles) {
+    for(auto && particle :particles){
+        particle.age+=1.0/this->settings.Framerate;
+    }
+}
+
+std::vector<Particle> Simulation::remove_corpses(std::vector<Particle> & particles) {
+    std::vector<Particle> temp;
+    for(auto && particle : particles){
+        if(particle.age >= particle.life){
+            temp.push_back(particle);
+        }
+    }
+    return temp;
 }

@@ -61,9 +61,6 @@ Eigen::Vector<T,size> convert_to_vector(const std::string & str){
 
 //endregion
 
-//Todo: Create partial specialization for size_t to avoid errors
-//Todo: Implement those conversions
-
 
 
 

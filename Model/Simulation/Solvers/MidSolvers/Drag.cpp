@@ -40,7 +40,6 @@ bool DragSolver::Solve(std::vector<Particle> & particles) {
 
         double drag_force = (1.0/2)*sphere_drag_coefficient*(particle.velocity.norm())*settings.fluid_density*cross_sectional_area;
 
-        cout << drag_force << endl;
         particle.velocity *= pow(pow(basic_drag_multiplier,drag_force),1.0/time_steps);
     }
     return true;

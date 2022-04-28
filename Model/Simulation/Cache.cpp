@@ -22,10 +22,10 @@ Cache::Cache(std::string location) {
 }
 
 bool Cache::cache_frame(int frame_number, const std::vector<Particle> & particles) {
-    string cache_location = location + "/" +string(file_name) + to_string(frame_number) + "." + string(file_suffix);
 
-    ofstream file(cache_location);
-    ofstream obj_file(location + "/OBJ" + to_string(frame_number) + ".obj");
+
+    ofstream file("Output/Cache/frame" + to_string(frame_number) + ".txt");
+    ofstream obj_file("Output/Geometry/frame" + to_string(frame_number) + ".obj");
 
     if(!file.is_open()) {
         cout << "Caching failed!" << endl;
@@ -37,8 +37,6 @@ bool Cache::cache_frame(int frame_number, const std::vector<Particle> & particle
         obj_file << "v " << std::fixed << std::setprecision(3) << p.position[0] << " " << p.position[1] << " " << p.position[2] << endl;
     }
 
-    //Todo: Create folder if it isnt there
-
     frame_count++;
     obj_file.close();
     file.close();
@@ -46,7 +44,7 @@ bool Cache::cache_frame(int frame_number, const std::vector<Particle> & particle
 }
 
 bool Cache::load_frame(int frame_number, std::vector<Particle> & particles) const {
-    string cache_location = location + "/" +string(file_name) + to_string(frame_number) + "." + string(file_suffix);
+    string cache_location = "Output/Cache/frame" + to_string(frame_number) + ".txt";
     ifstream file(cache_location);
 
     if(!file.is_open()){
@@ -63,8 +61,6 @@ bool Cache::load_frame(int frame_number, std::vector<Particle> & particles) cons
     }
 
     return true;
-    //Todo: Check correctness of this method
-
 }
 
 std::string Cache::particle_serialize(const Particle & particle) {

@@ -75,6 +75,8 @@ public:
 class SimulationRunnerMenu : public Menu{
     SimulationSettings * simulation_settings;
     std::vector<std::unique_ptr<SolverSettings>> * solvers;
+    bool cached = false;
+    Cache cache;
 public:
     std::string header() override;
     Menu* solve_request(const std::string &) override;
@@ -83,27 +85,6 @@ public:
     SimulationRunnerMenu() = default;
 };
 
-class SimulationViewMenu : public Menu{
-//Todo: Implement
-    /* In this menu you'l be able to open simulation view
-     * Commands: view simulation, back
-     * as well as change some of the view menu parameters
-     */
-};
-
-class SimulationRenderMenu : public Menu{
-//Todo: Implement
-    /* In this menu youll be able to render the simulation
-     * as well as change render settings
-     */
-};
-
-class SimulationImportAndExportMenu : public Menu{
-//Todo: Implement
-    /* In this menu youll be able to import and export the simulation
-     *
-     */
-};
 
 
 

@@ -14,7 +14,6 @@ enum class SolverType{
     Turbulence,
     Attract,
     Drag,
-    Vortex,
     ParticleCollision,
     SurfaceCollision,
 };

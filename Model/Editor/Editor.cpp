@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <filesystem>
 #include "Editor.h"
 
 Editor::Editor() {
@@ -13,6 +14,7 @@ Editor::Editor() {
     main_menu.add_menu_item(&solver_menu);
     main_menu.add_menu_item(&simulation_editor_menu);
     main_menu.add_menu_item(&simulation_runner_menu);
+    initialize_folders();
 }
 
 void Editor::Loop() {
@@ -27,4 +29,11 @@ void Editor::Step(const std::string & input) {
     Menu * temp = active_menu->solve_request(input);
     if(temp != nullptr) active_menu = temp;
     active_menu->display();
+}
+
+void Editor::initialize_folders() {
+    std::filesystem::create_directory("Output");
+    std::filesystem::create_directory("Output/Render");
+    std::filesystem::create_directory("Output/Geometry");
+    std::filesystem::create_directory("Output/Cache");
 }

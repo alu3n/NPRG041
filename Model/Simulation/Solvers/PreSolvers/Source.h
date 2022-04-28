@@ -12,14 +12,15 @@
 
 class SourceSolverSettings : public SolverSettings{
 public:
-    int count = 240; //Ammount of particles sourced per second (will be done stochastically)
-    double source_radius = 1;
+    int count = 24; //Ammount of particles sourced per second (is calculated stochastically)
+    double source_radius = 5;
     Eigen::Vector<double,3> position = {0,0,0};
-    Eigen::Vector<double,2> velocity_x_range = {-10,10}; //(vel_x_min,vel_x_max)
-    Eigen::Vector<double,2> velocity_y_range = {-10,10};
-    Eigen::Vector<double,2> velocity_z_range = {-10,10};
+    Eigen::Vector<double,2> velocity_x_range = {-5,5};
+    Eigen::Vector<double,2> velocity_y_range = {-5,5};
+    Eigen::Vector<double,2> velocity_z_range = {-5,5};
     Eigen::Vector<double,2> size_range = {0,1};
     Eigen::Vector<double,2> density_range = {0,1};
+    Eigen::Vector<double,2> life_expectancy_range = {0.5,1};
 
     std::vector<std::tuple<std::string,std::string>> get_contents() override;
     bool set_contents(const std::string & name, const std::string & value) override;

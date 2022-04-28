@@ -50,7 +50,5 @@ void SimulationEditorMenu::display() {
     cout << "> set {attribute id} {value}" << endl;
     cout << endl;
 
-    //Todo: Finish implementation
 }
 
-//Todo: Finish requests and change the text output to match solver editor menu

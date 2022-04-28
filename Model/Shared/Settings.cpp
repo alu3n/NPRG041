@@ -13,12 +13,11 @@ using string_t = tuple<string,string>;
 
 
 //region Simulation Settings Implementation
-vector<string_t> SimulationSettings::get_contents(){ //Todo: Rework the simulation settings menu
+vector<string_t> SimulationSettings::get_contents(){
     vector<string_t> temp;
     temp.emplace_back(string_t("Duration",to_string(Duration)));
     temp.emplace_back(string_t("Substeps",to_string(Substeps)));
     temp.emplace_back(string_t("Framerate",to_string(Framerate)));
-    temp.emplace_back(string_t("CacheFolder", CacheFolder));
     return temp;
 }
 
